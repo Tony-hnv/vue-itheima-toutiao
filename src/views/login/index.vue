@@ -17,8 +17,8 @@
 
         />
 
-        <div style="margin: 16px;">
-            <van-button  block type="info" native-type="submit">
+        <div class="login-btn-wrap" style="margin: 16px;">
+            <van-button class="login-btn" block type="info" native-type="submit">
                 登录
                 </van-button>
         </div>
@@ -51,5 +51,26 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+  .login-container {
+    .toutiao {
+    font-size:37px;
+  }
+  
+  .send-sms-btn{
+    width=152px;
+    height=46px;
+    line-height:46px;
+    font-size:22px;
+    color:#666;
+    background-color:#ededed;
+  }
+  
+  .login-btn-wrap {
+    padding:53px 33px;
+    .login-btn{
+      background-color:#6db4fb;
+      border:none;
+    }
+  }
+}
 </style>
