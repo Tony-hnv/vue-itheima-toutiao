@@ -8,14 +8,16 @@
         <van-field
             name="手机号码"
             placeholder="请输入手机号"
-
-        />
+        >
+          <i slot="left-icon" class="toutiao toutiao-shouji"></i>
+        </van-field>
 
         <van-field
             name="验证码"
             placeholder="请输入验证码"
-
-        />
+        >
+       <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
+        </van-field>
 
         <div class="login-btn-wrap" style="margin: 16px;">
             <van-button class="login-btn" block type="info" native-type="submit">
