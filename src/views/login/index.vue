@@ -15,14 +15,13 @@
         <van-field
             name="验证码"
             placeholder="请输入验证码"
-
         >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <van-button round class="send-sms-btn" slot="button" size="small" type="default">发送验证码</van-button>
         </van-field>
 
-        <div style="margin: 16px;">
-            <van-button  block type="info" native-type="submit">
+        <div class="login-btn-wrap" style="margin: 16px;">
+            <van-button class="login-btn" block type="info" native-type="submit">
                 登录
                 </van-button>
         </div>
@@ -55,17 +54,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.login-container {
+  .login-container {
     .toutiao {
-        font-size: 37px;
+    font-size:37px;
+  }
+
+  .send-sms-btn{
+    width:152px;
+    height:46px;
+    line-height:46px;
+    font-size:22px;
+    color:#666;
+    background-color:#ededed;
+  }
+
+  .login-btn-wrap {
+    padding:53px 33px;
+    .login-btn{
+      background-color:#6db4fb;
+      border:none;
     }
-    .send-sms-btn {
-        background-color: #ededed;
-        width: 152px;
-        height: 46px;
-        line-height: 46px;
-        font-size: 22px;
-        color: #666;
-    }
+  }
 }
+
 </style>
