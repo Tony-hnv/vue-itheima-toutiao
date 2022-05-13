@@ -7,13 +7,14 @@
     <!-- 登录表单 -->
     <van-form @submit="onSubmit">
       <van-field
-        name="用户名"
+        v-model="user.mobile"
+        name="手机号"
         placeholder="请输入手机号"
       >
         <i slot="left-icon" class="toutiao toutiao-shouji"></i>
       </van-field>
       <van-field
-        type="password"
+      v-model="user.code"
         name="验证码"
         placeholder="请输入验证码"
       >
@@ -33,12 +34,18 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
+
 export default {
   name: 'LoginIndex',
   components: {},
   props: {},
   data () {
     return {
+      user: {
+        mobile: '', // 手机号
+        code: '' // 验证码
+      }
     }
   },
   computed: {},
@@ -46,8 +53,22 @@ export default {
   created () {},
   mounted () {},
   methods: {
-    onSubmit (values) {
-      console.log('submit', values)
+    async onSubmit () {
+      // 1.获取表单数据
+      const user = this.user
+      // 2.表单验证
+
+      // 3.提交表单请求登录
+
+      // 4.根据请求响应结果处理后续操作
+      try {
+        const res = await login(user)
+        console.log('登陆成功', res)
+      } catch (err) {
+        console.log('登陆失败', err)
+      }
+
+      // console.log('submit', values)
     }
   }
 }
