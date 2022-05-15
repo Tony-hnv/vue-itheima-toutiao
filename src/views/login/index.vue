@@ -5,10 +5,10 @@
     <!-- /导航栏 -->
 
     <!-- 登录表单 -->
-    <van-form @submit="onSubmit">
+    <van-form ref="loginForm" @submit="onSubmit">
       <van-field
         v-model="user.mobile"
-        name="手机号"
+        name="mobile"
         placeholder="请输入手机号"
         :rules="userFormRules.mobile"
         type="number"
@@ -18,7 +18,7 @@
       </van-field>
       <van-field
       v-model="user.code"
-        name="验证码"
+        name="code"
         placeholder="请输入验证码"
         :rules="userFormRules.code"
         type="number"
@@ -26,7 +26,23 @@
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
-          <van-button class="send-sms-btn" round size="small" type="default">发送验证码</van-button>
+          <!-- time就是倒计时的时长 -->
+          <van-count-down
+          v-if="isCountDownShow"
+          :time="1000 * 10"
+          format="ss s"
+          @finish="isCountDownShow = false"
+          />
+
+          <van-button
+          v-else
+          class="send-sms-btn"
+          native-type="button"
+          round size="small"
+          type="default"
+          @click="onSendSms"
+          >发送验证码
+          </van-button>
         </template>
       </van-field>
       <div class="login-btn-wrap">
@@ -40,7 +56,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
+import { login, sendSms } from '@/api/user'
 
 export default {
   name: 'LoginIndex',
@@ -69,7 +85,8 @@ export default {
           message: '验证码格式错误',
           trigger: onblur
         }]
-      }
+      },
+      isCountDownShow: false // 是否展示倒计时
     }
   },
   computed: {},
@@ -105,6 +122,31 @@ export default {
       }
 
       // console.log('submit', values)
+    },
+    async onSendSms () {
+      // 1.校验手机号码
+      try {
+        await this.$refs.loginForm.validate('mobile')
+        console.log('验证通过')
+      } catch (error) {
+        return console.log('验证失败', error)
+      }
+      // 2. 显示倒计时
+      this.isCountDownShow = true
+      // 3. 请求发送验证码
+      try {
+        await sendSms(this.user.mobile)
+        this.$toast('发送成功')
+        // console.log('发送成功', res)
+      } catch (error) {
+        // console.log('发送失败', error)
+        this.isCountDownShow = false
+        if (error.response.status === 429) {
+          this.$toast('发送太频繁，请稍后重试')
+        } else {
+          this.$toast('发送失败，请稍后重试')
+        }
+      }
     }
   }
 }
