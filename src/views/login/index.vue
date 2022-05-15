@@ -11,6 +11,8 @@
         name="手机号"
         placeholder="请输入手机号"
         :rules="userFormRules.mobile"
+        type="number"
+        maxlength="11"
       >
         <i slot="left-icon" class="toutiao toutiao-shouji"></i>
       </van-field>
@@ -19,6 +21,8 @@
         name="验证码"
         placeholder="请输入验证码"
         :rules="userFormRules.code"
+        type="number"
+        maxlength="6"
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
@@ -51,17 +55,19 @@ export default {
       userFormRules: {
         mobile: [{
           required: true,
-          message: '请填写手机号'
+          message: '手机号不能为空'
         }, {
           pattern: /^1[3|5|7|8]\d{9}$/,
-          message: '手机号格式错误'
+          message: '手机号格式错误',
+          trigger: onblur
         }],
         code: [{
           required: true,
-          message: '请填写验证码'
+          message: '验证码不能为空'
         }, {
           pattern: /^\d{6}$/,
-          message: '验证码格式错误'
+          message: '验证码格式错误',
+          trigger: onblur
         }]
       }
     }
