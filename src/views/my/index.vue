@@ -2,8 +2,43 @@
   <div class="my-cntainer">
     <div @click="$router.push('/login')" class="header not-login">
       <div class="login-btn">
-        <img class="mobile-img" src="~@/assets/mobile.png" alt="">
+        <img class="mobile-img" src="~@/assets/mobile.png" alt="" />
         <span class="text">登录/注册</span>
+      </div>
+    </div>
+
+    <div class="header user-info">
+      <div class="base-info">
+        <div class="left">
+          <van-image
+            round
+            class="avatar"
+            fit="cover"
+            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+          />
+          <span class="name">黑马头条号</span>
+        </div>
+        <div class="right">
+          <van-button size="mini" round>编辑资料</van-button>
+        </div>
+      </div>
+      <div class="data-stats">
+        <div class="data-item">
+          <span class="count">8</span>
+          <span class="text">头条</span>
+        </div>
+        <div class="data-item">
+          <span class="count">66</span>
+          <span class="text">关注</span>
+        </div>
+        <div class="data-item">
+          <span class="count">88</span>
+          <span class="text">粉丝</span>
+        </div>
+        <div class="data-item">
+          <span class="count">88</span>
+          <span class="text">获赞</span>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +86,50 @@ export default {
       .text {
         font-size: 28px;
         color: #fff ;
+      }
+    }
+  }
+
+  .user-info {
+    .base-info {
+      height: 231px;
+      padding: 76px 32px 23px;
+      box-sizing: border-box; //使用box模型，使padding计算在盒子大小内
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .left {
+        display: flex;
+        align-items: center;
+        .avatar {
+          width: 132px;
+          height: 132px;
+          margin-right: 23px;
+          border: 4px solid #fff;
+        }
+        .name {
+          font-size: 30px;
+          color: #fff;
+        }
+      }
+    }
+    .data-stats {
+      background-color: darkseagreen;
+      display: flex;
+      .data-item {
+        height: 130px;
+        flex:1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        .count {
+          font-style: 36px;
+        }
+        .text {
+          font-size: 23px;
+        }
       }
     }
   }
