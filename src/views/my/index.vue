@@ -1,13 +1,7 @@
 <template>
   <div class="my-cntainer">
-    <div @click="$router.push('/login')" class="header not-login">
-      <div class="login-btn">
-        <img class="mobile-img" src="~@/assets/mobile.png" alt="" />
-        <span class="text">登录/注册</span>
-      </div>
-    </div>
-
-    <div class="header user-info">
+     <!-- 已登录头部 -->
+    <div v-if="user" class="header user-info">
       <div class="base-info">
         <div class="left">
           <van-image
@@ -41,8 +35,21 @@
         </div>
       </div>
     </div>
+    <!-- /已登录头部 -->
+    
+    
+    <!-- 未登录头部 -->
+    <div v-else @click="$router.push('/login')" class="header not-login">
+      <div class="login-btn">
+        <img class="mobile-img" src="~@/assets/mobile.png" alt="" />
+        <span class="text">登录/注册</span>
+      </div>
+    </div>
+    <!-- /未登录头部 -->
 
-    <!-- 导航 -->
+   
+
+    <!-- 宫格导航 -->
     <van-grid class="grid-nav" :column-num="2" clickable>
       <van-grid-item class="grid-item">
         <i slot="icon" class="toutiao toutiao-shoucang"></i>
@@ -53,14 +60,24 @@
         <span slot="text" class="text">历史</span>
       </van-grid-item>
     </van-grid>
+    <!-- /宫格导航 -->
 
-    <!-- 导航 -->
-
-    <!--/ 导航 -->
+    <van-cell title="消息通知" is-link />
+    <van-cell class="mb-9" title="小智同学" is-link/>
+    <van-cell 
+      v-if="user"
+      class="logout-cell"
+      clickable
+      title="退出登录"
+      @click="onLogoout"
+      />
+  
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'MyIndex',
   components: {},
@@ -69,11 +86,30 @@ export default {
     return {
     }
   },
-  computed: {},
+  computed: {
+    ...mapStated(['user'])
+  },
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    onLogout () {
+      // 退出提示
+      // 在组件中需要使用 this.$dialog 来调用弹框组件
+      this.$dialog.confirm({
+          title: '确认退出吗？'
+        })
+        .then(() => {
+          // on confirm
+          this.$store.commit('setUser',null)
+        })
+        .catch(() => {
+          // on cancel
+        })
+      //确认退出：清除登录状态（容器中的 user + 本地存储中的 user）
+      
+    }
+  }
 
 }
 </script>
