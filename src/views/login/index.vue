@@ -110,8 +110,9 @@ export default {
 
       // 4.根据请求响应结果处理后续操作
       try {
-        const res = await login(user)
-        console.log('登陆成功', res)
+        const { data } = await login(user)
+        console.log('登陆成功', data)
+        this.$store.commit('setUser', data.data)
         this.$toast.success('登陆成功')
       } catch (err) {
         if (err.response.status === 400) {
