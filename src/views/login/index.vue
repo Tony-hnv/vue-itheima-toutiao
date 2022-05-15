@@ -10,6 +10,7 @@
         v-model="user.mobile"
         name="手机号"
         placeholder="请输入手机号"
+        :rules="userFormRules.mobile"
       >
         <i slot="left-icon" class="toutiao toutiao-shouji"></i>
       </van-field>
@@ -17,6 +18,7 @@
       v-model="user.code"
         name="验证码"
         placeholder="请输入验证码"
+        :rules="userFormRules.code"
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
@@ -45,6 +47,22 @@ export default {
       user: {
         mobile: '', // 手机号
         code: '' // 验证码
+      },
+      userFormRules: {
+        mobile: [{
+          required: true,
+          message: '请填写手机号'
+        }, {
+          pattern: /^1[3|5|7|8]\d{9}$/,
+          message: '手机号格式错误'
+        }],
+        code: [{
+          required: true,
+          message: '请填写验证码'
+        }, {
+          pattern: /^\d{6}$/,
+          message: '验证码格式错误'
+        }]
       }
     }
   },
@@ -57,6 +75,13 @@ export default {
       // 1.获取表单数据
       const user = this.user
       // 2.表单验证
+      // 在组件中必须使用this.$toast 来调用 Toast组件
+      this.$toast.loading({
+        mask: true,
+        message: '加载中...',
+        forbidClick: true, // 禁用背景点击
+        duration: 0 // 持续时间，默认两秒，如果为0，则持续展示
+      })
 
       // 3.提交表单请求登录
 
@@ -64,8 +89,13 @@ export default {
       try {
         const res = await login(user)
         console.log('登陆成功', res)
+        this.$toast.success('登陆成功')
       } catch (err) {
-        console.log('登陆失败', err)
+        if (err.response.status === 400) {
+          this.$toast.fail('手机号或验证码错误')
+        } else {
+          this.$toast.fail('登陆失败，请稍后重试')
+        }
       }
 
       // console.log('submit', values)
