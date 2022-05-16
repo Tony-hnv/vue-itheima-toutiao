@@ -1,5 +1,5 @@
 <template>
-  <div class="my-cntainer">
+  <div class="my-container">
     <!-- 已登录头部 -->
     <div v-if="user" class="header user-info">
       <div class="base-info">
@@ -130,7 +130,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.my-cntainer {
+.my-container {
   .header {
     height: 361px;
     background: url('~@/assets/banner.png');
