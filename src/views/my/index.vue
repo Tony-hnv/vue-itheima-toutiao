@@ -1,6 +1,6 @@
 <template>
   <div class="my-cntainer">
-     <!-- 已登录头部 -->
+    <!-- 已登录头部 -->
     <div v-if="user" class="header user-info">
       <div class="base-info">
         <div class="left">
@@ -8,9 +8,9 @@
             round
             class="avatar"
             fit="cover"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :src="userInfo.photo"
           />
-          <span class="name">黑马头条号</span>
+          <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
           <van-button size="mini" round>编辑资料</van-button>
@@ -18,19 +18,19 @@
       </div>
       <div class="data-stats">
         <div class="data-item">
-          <span class="count">8</span>
+          <span class="count">{{ userInfo.art_count }}</span>
           <span class="text">头条</span>
         </div>
         <div class="data-item">
-          <span class="count">66</span>
+          <span class="count">{{ userInfo.follow_count }}</span>
           <span class="text">关注</span>
         </div>
         <div class="data-item">
-          <span class="count">88</span>
+          <span class="count">{{ userInfo.fans_count }}</span>
           <span class="text">粉丝</span>
         </div>
         <div class="data-item">
-          <span class="count">88</span>
+          <span class="count">{{ userInfo.like_count }}</span>
           <span class="text">获赞</span>
         </div>
       </div>
@@ -61,12 +61,13 @@
 
     <van-cell title="消息通知" is-link />
     <van-cell class="mb-9" title="小智同学" is-link/>
+
     <van-cell
       v-if="user"
       class="logout-cell"
       clickable
       title="退出登录"
-      @click="onLogoout"
+      @click="onLogout"
       />
 
   </div>
@@ -116,9 +117,11 @@ export default {
     async loadUserInfo () {
       try {
         const { data } = await getUserInfo()
+        this.userInfo = data.data
         console.log(data)
       } catch (err) {
         this.$toast('获取数据失败，请稍后重试')
+        console.log('获取用户信息失败', err)
       }
     }
   }
@@ -178,7 +181,6 @@ export default {
       }
     }
     .data-stats {
-      background-color: darkseagreen;
       display: flex;
       .data-item {
         height: 130px;
@@ -199,8 +201,9 @@ export default {
   }
 
   .grid-nav {
+    margin-bottom: 9px;
     .grid-item {
-      height: 141%;
+      height: 141px;
       i.toutiao {
         font-size: 45px;
       }
@@ -214,6 +217,15 @@ export default {
         font-size: 28px;
       }
     }
+  }
+
+  .logout-cell {
+    text-align: center;
+    color: #d86262;
+  }
+
+  .mb-9 {
+    margin-bottom: 9px;
   }
 }
 </style>

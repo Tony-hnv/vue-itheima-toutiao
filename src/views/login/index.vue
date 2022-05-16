@@ -120,10 +120,10 @@ export default {
       // 4.根据请求响应结果处理后续操作
       try {
         const { data } = await login(user)
-        console.log('登陆成功', data)
+        // console.log('登陆成功', data)
         this.$store.commit('setUser', data.data)
         this.$toast.success('登陆成功')
-        
+
         // 登录成功，跳转到原来页面
         // back方式不严谨，后期优化时会修改
         this.$router.back()
