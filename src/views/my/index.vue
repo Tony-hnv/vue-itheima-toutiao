@@ -77,6 +77,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getUserInfo } from '@/api/user'
 
 export default {
   name: 'MyIndex',
@@ -84,13 +85,19 @@ export default {
   props: {},
   data () {
     return {
+      userInfo: {}  // 用户信息
     }
   },
   computed: {
     ...mapStated(['user'])
   },
   watch: {},
-  created () {},
+  created () {
+    // 如果用户登录了，则请求加载用户信息数据
+    if(this.user){
+      this.loadUserInfo()
+    }
+  },
   mounted () {},
   methods: {
     onLogout () {
@@ -108,6 +115,14 @@ export default {
         })
       //确认退出：清除登录状态（容器中的 user + 本地存储中的 user）
       
+    }，
+    async loadUserInfo () {
+      try{
+        const { data } = await getUserInfo()
+        console.log(data)
+      } catch(err){
+        this.$toast('获取数据失败，请稍后重试')
+      }
     }
   }
 
