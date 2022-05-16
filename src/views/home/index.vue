@@ -24,7 +24,10 @@
       :title="channel.name"
       v-for="channel in channels"
       :key="channel.id"
-      >{{channel.name}}
+      >
+      <!-- 文章列表 -->
+      <article-list :channel="channel" />
+      <!-- /文章列表 -->
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hangburger-btn">
@@ -37,10 +40,13 @@
 
 <script>
 import { getUserChannels } from '@/api/user'
+import ArticleList from './components/article-list.vue'
 
 export default {
   name: 'HomeIndex',
-  components: {},
+  components: {
+    ArticleList
+  },
   props: {},
   data () {
     return {
@@ -71,6 +77,7 @@ export default {
 
 <style lang="less" scoped>
 .home-container {
+  padding-bottom: 100px;
     /deep/ .van-nav-bar__title {
       max-width: unset;
     }
