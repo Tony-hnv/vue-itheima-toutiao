@@ -27,8 +27,8 @@ export const sendSms = mobile => {
  * 获取用户自己的信息
  */
 export const getUserInfo = () => {
-  return request ({
+  return request({
     method: 'GET',
-    url: '/app/v1_0/user'
+    url: '/v1_0/user/profile'
   })
 }

@@ -36,8 +36,7 @@
       </div>
     </div>
     <!-- /已登录头部 -->
-    
-    
+
     <!-- 未登录头部 -->
     <div v-else @click="$router.push('/login')" class="header not-login">
       <div class="login-btn">
@@ -46,8 +45,6 @@
       </div>
     </div>
     <!-- /未登录头部 -->
-
-   
 
     <!-- 宫格导航 -->
     <van-grid class="grid-nav" :column-num="2" clickable>
@@ -64,14 +61,14 @@
 
     <van-cell title="消息通知" is-link />
     <van-cell class="mb-9" title="小智同学" is-link/>
-    <van-cell 
+    <van-cell
       v-if="user"
       class="logout-cell"
       clickable
       title="退出登录"
       @click="onLogoout"
       />
-  
+
   </div>
 </template>
 
@@ -85,16 +82,16 @@ export default {
   props: {},
   data () {
     return {
-      userInfo: {}  // 用户信息
+      userInfo: {}// 用户信息
     }
   },
   computed: {
-    ...mapStated(['user'])
+    ...mapState(['user'])
   },
   watch: {},
   created () {
     // 如果用户登录了，则请求加载用户信息数据
-    if(this.user){
+    if (this.user) {
       this.loadUserInfo()
     }
   },
@@ -104,23 +101,23 @@ export default {
       // 退出提示
       // 在组件中需要使用 this.$dialog 来调用弹框组件
       this.$dialog.confirm({
-          title: '确认退出吗？'
-        })
+        title: '确认退出吗？'
+      })
         .then(() => {
           // on confirm
-          this.$store.commit('setUser',null)
+          this.$store.commit('setUser', null)
         })
         .catch(() => {
           // on cancel
         })
-      //确认退出：清除登录状态（容器中的 user + 本地存储中的 user）
-      
-    }，
+      // 确认退出：清除登录状态（容器中的 user + 本地存储中的 user）
+    },
+
     async loadUserInfo () {
-      try{
+      try {
         const { data } = await getUserInfo()
         console.log(data)
-      } catch(err){
+      } catch (err) {
         this.$toast('获取数据失败，请稍后重试')
       }
     }
