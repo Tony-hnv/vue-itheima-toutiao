@@ -36,7 +36,7 @@ export default {
 <style lang="less" scoped>
 .home-container {
     .van-nav-bar__title {
-      max-width: unset;
+      max-width: unset
     }
     .search-btn {
       width: 555px;
