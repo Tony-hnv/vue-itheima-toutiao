@@ -23,7 +23,7 @@
      <van-pull-refresh
      v-model="isreFreshLoading"
      :success-text="refreshSuccessText"
-     :success-duration="1000"
+     :success-duration="1500"
      @refresh="onRefresh"
      >
         <van-list
@@ -110,6 +110,7 @@ export default {
 
         // 2.把请求结果数据放到 list 数组中
         const { results } = data.data
+        // 数组的展开操作符，它会把数组元素一个一个的拿出来
         this.list.push(...results)
 
         // 3.本次数据加载结束之后要把加载状态设置为结束
