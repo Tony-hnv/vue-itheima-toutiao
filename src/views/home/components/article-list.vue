@@ -22,8 +22,8 @@
      -->
      <van-pull-refresh
      v-model="isreFreshLoading"
-     success-text="refreshSuccessText"
-     success-duration="1000"
+     :success-text="refreshSuccessText"
+     :success-duration="1000"
      @refresh="onRefresh"
      >
         <van-list
@@ -104,15 +104,13 @@ export default {
         })
 
         // 模拟错误
-        if (Math.random() > 0.5) {
-          JSON.parse('nijjnsdjn')
-        }
+        // if (Math.random() > 0.5) {
+        //   JSON.parse('nijjnsdjn')
+        // }
 
         // 2.把请求结果数据放到 list 数组中
         const { results } = data.data
         this.list.push(...results)
-        console.log(data)
-        this.list = data.data
 
         // 3.本次数据加载结束之后要把加载状态设置为结束
         this.loading = false
@@ -136,18 +134,18 @@ export default {
       try {
         // 请求获取数据
         const { data } = await getArticles({
-          channel_id: this.channel_id.id,
+          channel_id: this.channel.id,
           timestamp: Date.now()
         })
 
         // 模拟随机失败的情况
-        if (Math.random() > 0.2) {
-          JSON.parse('nijjnsdjn')
-        }
+        // if (Math.random() > 0.2) {
+        //   JSON.parse('nijjnsdjn')
+        // }
 
         // 将获取的数据追加到列表的顶
         const { results } = data.data
-        this.list.unshift(...data.data.results)
+        this.list.unshift(...results)
         // 关闭下拉刷新的 loading 状态
         this.isreFreshLoading = false
         // 更新下拉刷新成功提示的文本
@@ -162,6 +160,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 
 </style>

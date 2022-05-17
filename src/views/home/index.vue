@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar">
+    <van-nav-bar class="page-nav-bar" fixed>
         <van-button
         class="search-btn"
         slot="title"
@@ -19,14 +19,18 @@
         通过 swipeable 属性可以开启滑动切换标签页。
     -->
     <van-tabs
-    class="channel-tab" v-model="active" animated swipeable>
+    class="channel-tab"
+    v-model="active"
+    animated
+    swipeable
+    >
       <van-tab
       :title="channel.name"
       v-for="channel in channels"
       :key="channel.id"
       >
       <!-- 文章列表 -->
-      <article-list :channel="channel" />
+      <article-list ref="article-list" :channel="channel" />
       <!-- /文章列表 -->
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
@@ -83,7 +87,7 @@ export default {
     }
     .search-btn {
       width: 555px;
-      height: 44px;
+      height: 64px;
       background-color: #5babfb;
       border: none;
       font-size: 28px;
@@ -94,6 +98,11 @@ export default {
 
     /deep/ .channel-tab {
       .van-tabs__wrap {
+        position: fixed;
+        top: 92px;
+        z-index: 1;
+        left: 0;
+        right: 0;
         height: 82px;
       }
 
@@ -143,7 +152,7 @@ export default {
           position: absolute;
           left: 0;
           width: 1px;
-          height: 100%;
+          height: 58px;
           background: url('~@/assets/gradient-gray-line.png');
           background-size: contain;
         }
