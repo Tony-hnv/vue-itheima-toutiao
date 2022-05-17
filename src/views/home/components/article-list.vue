@@ -20,7 +20,7 @@
         + 在每次请求完毕后，需要手动将 loading 设置为 false，表示本次加载结束
         + 所有数据加载结束，finished 为 true，此时不会触发 load 事件
      -->
-     <van-pull-refresh 
+     <van-pull-refresh
      v-model="isreFreshLoading"
      success-text="refreshSuccessText"
      success-duration="1000"
@@ -60,7 +60,7 @@ export default {
       loading: false, // 控制加载中 loading 状态
       finished: false, // 控制数据加载结束的状态
       timestamp: null, // 请求获取下一页数据的时间戳
-      error: false， // 控制列表加载失败的提示状态
+      error: false, // 控制列表加载失败的提示状态
       isreFreshLoading: false, // 控制下拉刷新的 loading 状态
       refreshSuccessText: '刷新成功'
     }
@@ -102,7 +102,7 @@ export default {
           // 用于请求之后数据的时间戳会在当前请求结果中返回给你
           timestamp: this.timestamp || Date.now()
         })
-        
+
         // 模拟错误
         if (Math.random() > 0.5) {
           JSON.parse('nijjnsdjn')
@@ -139,19 +139,19 @@ export default {
           channel_id: this.channel_id.id,
           timestamp: Date.now()
         })
-        
+
         // 模拟随机失败的情况
         if (Math.random() > 0.2) {
           JSON.parse('nijjnsdjn')
         }
-        
+
         // 将获取的数据追加到列表的顶
         const { results } = data.data
         this.list.unshift(...data.data.results)
         // 关闭下拉刷新的 loading 状态
-         this.isreFreshLoading = false
-         // 更新下拉刷新成功提示的文本
-         this.refreshSuccessText = `刷新成功，更新了${results.length}条数据`
+        this.isreFreshLoading = false
+        // 更新下拉刷新成功提示的文本
+        this.refreshSuccessText = `刷新成功，更新了${results.length}条数据`
       } catch (err) {
         this.isreFreshLoading = false
         this.refreshSuccessText = '刷新失败'
