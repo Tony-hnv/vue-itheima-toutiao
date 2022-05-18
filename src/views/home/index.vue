@@ -101,7 +101,9 @@ export default {
       this.show = true
     },
     onUpdateActive (index) {
+      // 更新active
       this.active = index
+      // 关闭编辑频道页面
       this.isChannelEditShow = false
     }
   }
