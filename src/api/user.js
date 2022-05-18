@@ -1,7 +1,7 @@
 /**
 * 用户相关请求模块
 */
-import request from '@/utils/request.js'
+import request from '@/utils/request'
 // import store from '@/store'
 
 export const login = data => {

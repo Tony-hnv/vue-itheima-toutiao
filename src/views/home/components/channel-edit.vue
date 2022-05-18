@@ -41,17 +41,17 @@
       <van-grid class="recommend-grid" :gutter="10">
           <van-grid-item
           class="grid-item"
+          v-for="(channel, index) in recommendChannels"
           icon="plus"
-          v-for="value in 8"
-          :key="value"
-          text="文字" />
+          :key="index"
+          :text="channel.name" />
         </van-grid>
       <!--/频道推荐 -->
   </div>
 </template>
 
 <script>
-import { getAllChannel } from '@/api/channel'
+import { getAllChannels } from '@/api/channel'
 
 export default {
   name: 'ChannelEdit',
@@ -71,19 +71,45 @@ export default {
       allChannel: [] // 所有频道
     }
   },
-  computed: {},
+  computed: {
+    // 数组的filter方法：遍历数组，把符合条件的元素存储到新的数组内
+    recommendChannels () {
+      return this.allChannel.filter(channel => {
+        // 数组的find方法：遍历数组，把符合条件的第一个元素返回
+        return !this.myChannels.find(myChannel => {
+          return myChannel.id === channel.id
+        })
+      })
+    }
+
+    // recommendChannels () {
+    //   const channels = []
+    //   this.allChannel.forEach(channel => {
+    //     const ret = this.myChannels.find(myChannel => {
+    //       return myChannel.id === channel.id
+    //     })
+    //     // 如果我的频道中不包含该频道项，则收集到推荐频道中
+    //     if (!ret) {
+    //       channels.push(channel)
+    //     }
+    //   })
+    //   // 把计算结果返回
+    //   return channels
+    // }
+  },
   watch: {},
   created () {
-    this.loadAllChannel()
+    this.loadAllChannels()
   },
   mounted () {},
   methods: {
-    async loadAllChannel () {
+    async loadAllChannels () {
       try {
-        const { data } = await getAllChannel()
+        const { data } = await getAllChannels()
         // console.log(data)
         this.allChannel = data.data.channels
       } catch (err) {
+        console.log(err)
         this.$toast('数据获取失败')
       }
     }
