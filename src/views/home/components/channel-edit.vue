@@ -127,6 +127,10 @@ export default {
     onAddChannel (channel) {
       // console.log(channel)
       this.myChannels.push(channel)
+
+      // 数据持久化
+      // 未登录，把数据存储到本地
+      // 一登陆， 把数据请求接口放到线上
     },
 
     onMyChannelClick (channel, index) {
