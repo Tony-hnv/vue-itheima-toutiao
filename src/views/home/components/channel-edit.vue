@@ -30,7 +30,7 @@
         <van-icon
         slot="icon"
         name="clear"
-        v-show="isEdit && !fiexChannels.includes(channel.id)"
+        v-show="isEdit && !fiexdChannels.includes(channel.id)"
         ></van-icon>
 
         <span
@@ -79,7 +79,7 @@ export default {
     return {
       allChannel: [], // 所有频道
       isEdit: false, // 控制编辑状态的显示
-      fiexChannels: [0] // 固定频道，不允许删除
+      fiexdChannels: [0] // 固定频道，不允许删除
     }
   },
   computed: {
@@ -131,11 +131,21 @@ export default {
 
     onMyChannelClick (channel, index) {
       if (this.isEdit) {
-      // 编辑状态，则执行删除频道
-
+        // 如果是固定频道。则不删除
+        if (this.fiexdChannels.includes(channel.id)) {
+          return
+        }
+        // 编辑状态，则执行删除频道
+        // 参数一：要删除的元素的索引
+        // 参数二：删除的个数，如果不指定，则从参数一开始一直删到最后
+        if (index <= this.active) {
+          // 让激活的频道-1
+          this.$emit('update-active', this.active - 1, true)
+        }
+        this.myChannels.splice(index, 1)
       } else {
       // 非编辑状态，则执行切换频道
-        this.$emit('update-active', index)
+        this.$emit('update-active', index, false)
       }
     }
 

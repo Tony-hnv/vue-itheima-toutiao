@@ -100,11 +100,11 @@ export default {
     showPopup () {
       this.show = true
     },
-    onUpdateActive (index) {
+    onUpdateActive (index, isChannelEditShow = true) {
       // 更新active
       this.active = index
       // 关闭编辑频道页面
-      this.isChannelEditShow = false
+      this.isChannelEditShow = isChannelEditShow
     }
   }
 
