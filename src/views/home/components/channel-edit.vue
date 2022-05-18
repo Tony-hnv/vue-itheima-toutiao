@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import { getAllChannel } from '@/api/channel'
+
 export default {
   name: 'ChannelEdit',
   components: {},
@@ -65,14 +67,26 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      allChannel: [] // 所有频道
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    this.loadAllChannel()
+  },
   mounted () {},
   methods: {
-
+    async loadAllChannel () {
+      try {
+        const { data } = await getAllChannel()
+        // console.log(data)
+        this.allChannel = data.data.channels
+      } catch (err) {
+        this.$toast('数据获取失败')
+      }
+    }
   }
 
 }
