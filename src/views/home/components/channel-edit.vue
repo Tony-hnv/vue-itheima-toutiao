@@ -44,7 +44,9 @@
           v-for="(channel, index) in recommendChannels"
           icon="plus"
           :key="index"
-          :text="channel.name" />
+          :text="channel.name"
+          @click="onAddChannel(channel)"
+          />
         </van-grid>
       <!--/频道推荐 -->
   </div>
@@ -112,6 +114,10 @@ export default {
         console.log(err)
         this.$toast('数据获取失败')
       }
+    },
+    onAddChannel (channel) {
+      // console.log(channel)
+      this.myChannels.push(channel)
     }
   }
 
