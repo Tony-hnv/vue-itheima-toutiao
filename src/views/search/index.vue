@@ -23,7 +23,9 @@
 <!-- /搜索结果 -->
 
 <!-- 联想建议 -->
-<search-suggestion v-else-if="searchText" />
+<search-suggestion
+  :search-text="searchText"
+  v-else-if="searchText" />
 <!-- /联想建议 -->
 
 <!-- 搜索历史纪录 -->
