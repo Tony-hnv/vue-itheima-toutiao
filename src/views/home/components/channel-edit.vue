@@ -60,7 +60,9 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel'
+import { getAllChannels, addUserChannel } from '@/api/channel'
+import { mapState } from 'vuex'
+import { setItem } from '@/utils/storage'
 
 export default {
   name: 'ChannelEdit',
@@ -83,6 +85,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['user']),
     // 数组的filter方法：遍历数组，把符合条件的元素存储到新的数组内
     recommendChannels () {
       return this.allChannel.filter(channel => {
@@ -124,13 +127,25 @@ export default {
         this.$toast('数据获取失败')
       }
     },
-    onAddChannel (channel) {
+
+    async onAddChannel (channel) {
       // console.log(channel)
       this.myChannels.push(channel)
-
-      // 数据持久化
+      if (this.user) {
+        try {
+        // 数据持久化
+          // 已登陆， 把数据请求接口放到线上
+          await addUserChannel({
+            id: channel.id, // 频道ID
+            seq: this.myChannels.length // 序号
+          })
+        } catch (err) {
+          this.$toast('保存失败，请稍后重试')
+        }
+      } else {
       // 未登录，把数据存储到本地
-      // 一登陆， 把数据请求接口放到线上
+        setItem('TOUTIAO_CHANNELS', this.myChannels)
+      }
     },
 
     onMyChannelClick (channel, index) {
