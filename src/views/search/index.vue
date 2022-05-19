@@ -13,21 +13,23 @@
         placeholder="请输入搜索关键词"
         @search="onSearch"
         @cancel="onCancel"
+        @focus="isResultShow = false"
   />
 </form>
 <!-- /顶部搜索栏 -->
 
-<!-- 搜索历史纪录 -->
-<search-history />
-<!-- /搜索历史纪录 -->
+<!-- 搜索结果 -->
+<search-result v-if="isResultShow"/>
+<!-- /搜索结果 -->
 
 <!-- 联想建议 -->
-<search-suggestion />
+<search-suggestion v-else-if="searchText" />
 <!-- /联想建议 -->
 
-<!-- 搜索结果 -->
-<search-result />
-<!-- /搜索结果 -->
+<!-- 搜索历史纪录 -->
+<search-history v-else />
+<!-- /搜索历史纪录 -->
+
 </div>
 </template>
 
@@ -37,7 +39,7 @@ import searchSuggestion from './components/search-suggestion'
 import searchResult from './components/search-result'
 
 export default {
-  name: 'SearchPage',
+  name: 'SearchIndex',
   components: {
     searchHistory,
     searchSuggestion,
@@ -46,7 +48,8 @@ export default {
   props: {},
   data () {
     return {
-      searchText: ''
+      searchText: '',
+      isResultShow: false // 控制搜索结果的展示
     }
   },
   computed: {},
@@ -56,6 +59,7 @@ export default {
   methods: {
     onSearch (val) {
       console.log(val)
+      this.isResultShow = true
     },
     onCancel () {
       this.$router.back()
