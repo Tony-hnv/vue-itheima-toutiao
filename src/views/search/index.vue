@@ -18,23 +18,31 @@
 <!-- /顶部搜索栏 -->
 
 <!-- 搜索历史纪录 -->
-
+<search-history />
 <!-- /搜索历史纪录 -->
 
 <!-- 联想建议 -->
-
+<search-suggestion />
 <!-- /联想建议 -->
 
-<!-- 历史记录 -->
-
-<!-- /历史记录 -->
+<!-- 搜索结果 -->
+<search-result />
+<!-- /搜索结果 -->
 </div>
 </template>
 
 <script>
+import searchHistory from './components/search-history'
+import searchSuggestion from './components/search-suggestion'
+import searchResult from './components/search-result'
+
 export default {
   name: 'SearchPage',
-  components: {},
+  components: {
+    searchHistory,
+    searchSuggestion,
+    searchResult
+  },
   props: {},
   data () {
     return {
