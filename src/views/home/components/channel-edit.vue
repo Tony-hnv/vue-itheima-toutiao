@@ -60,7 +60,11 @@
 </template>
 
 <script>
-import { getAllChannels, addUserChannel } from '@/api/channel'
+import {
+  deleteUserChannel,
+  getAllChannels,
+  addUserChannel
+} from '@/api/channel'
 import { mapState } from 'vuex'
 import { setItem } from '@/utils/storage'
 
@@ -154,6 +158,9 @@ export default {
         if (this.fiexdChannels.includes(channel.id)) {
           return
         }
+
+        // 删除频道项
+        this.myChannels.splice(index, 1)
         // 编辑状态，则执行删除频道
         // 参数一：要删除的元素的索引
         // 参数二：删除的个数，如果不指定，则从参数一开始一直删到最后
@@ -161,15 +168,29 @@ export default {
           // 让激活的频道-1
           this.$emit('update-active', this.active - 1, true)
         }
-        this.myChannels.splice(index, 1)
+
+        // 4. 处理持久化
+        this.deleteChannel(channel)
       } else {
       // 非编辑状态，则执行切换频道
         this.$emit('update-active', index, false)
       }
+    },
+
+    async deleteChannel (channel) {
+      try {
+        if (this.user) {
+        // 已登陆，则将数据更新到线上
+          await deleteUserChannel(channel.id)
+        } else {
+        // 未登录，将数据更新到本地
+          setItem('TOUTIAO_CHANNELS', this.myChannels)
+        }
+      } catch (err) {
+        this.$toast('操作失败，请稍后重试')
+      }
     }
-
   }
-
 }
 </script>
 
