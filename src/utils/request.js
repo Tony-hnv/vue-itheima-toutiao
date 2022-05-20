@@ -4,9 +4,32 @@
 
 import axios from 'axios'
 import store from '@/store'
+import JSONBing from 'json-bigint'
+
+// JSON.parse()
+// JSON.stringfy()
+
+// JSONBig 可以处理数据中超出 JavaScript 安全整数范围的问题
+
+// JSONBig.parse() // 把 JSON 格式的字符串转化为 JavaScript 对象
+// 使用的时候需要把 BigNumber 类型的数据转化为字符串来使用
+// 如：const jsonStr = '{ "art_id": 12232423123142232212}'
+// console.log(JSONBig.parse(jsonStr).art_id.toString())
+
+// JSONBig.stringfy()  // 把 JavaScript 对象转化为 JSON 格式的字符串
 
 const request = axios.create({
-  baseURL: 'http://toutiao.itheima.net' // 基础路径
+  baseURL: 'http://toutiao.itheima.net', // 基础路径
+
+  // 自定义后端返回的原始数据
+  // data: 后端返回的原始数据，说白了就是 JSON 格式的字符串
+  transformResponse: [function (data) {
+    try {
+      return JSONBing.parse(data)
+    } catch (err) {
+      return data
+    }
+  }]
 })
 
 // 请求拦截器
