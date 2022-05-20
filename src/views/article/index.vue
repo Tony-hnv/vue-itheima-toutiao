@@ -36,19 +36,43 @@
           />
           <div slot="title" class="user-name">{{ article.aut_name}}</div>
           <div slot="label" class="publish-date">{{ article.pubdate | relativeTime}}</div>
+          <!--
+            模板中的 $event 是事件参数
+            当我们传递给子组件的数据既要使用还要修改
+              传递： props
+                :is-followed="article.is_followed"
+              修改： 自定义事件
+                @update-is_followed="article.is_followed = $event "
+            简写方式：在组件上使用 v-model
+              value="article.is_followed"
+              @input="article.is_followed = $event "
+
+            如果需要修改 v-model 的规则名称，则可以通过子组件的model属性来配置修改
+          -->
+          <follow-user
+            class="follow-btn"
+            v-model="article.is_followed"
+            :user-id="article.aut_id"
+            />
+          <!-- <van-button
+            v-if="article.is_followed"
+            class="follow-btn"
+            round
+            size="small"
+            :loading="followLoading"
+            @click="onFollow"
+          >已关注</van-button>
           <van-button
+            v-else
             class="follow-btn"
             type="info"
             color="#3296fa"
             round
             size="small"
             icon="plus"
-          >关注</van-button>
-          <!-- <van-button
-            class="follow-btn"
-            round
-            size="small"
-          >已关注</van-button> -->
+            :loading="followLoading"
+            @click="onFollow"
+          >关注</van-button> -->
         </van-cell>
         <!-- /用户信息 -->
 
@@ -94,10 +118,7 @@
         info="123"
         color="#777"
       />
-      <van-icon
-        color="#777"
-        name="star-o"
-      />
+      <collect-article />
       <van-icon
         color="#777"
         name="good-job-o"
@@ -111,6 +132,8 @@
 <script>
 import { getArticleById } from '@/api/article'
 import { ImagePreview } from 'vant'
+import FollowUser from '@/components/follow-user'
+import CollectArticle from '@/components/collect-article'
 
 // ImagePreview({
 //   images: [
@@ -122,7 +145,10 @@ import { ImagePreview } from 'vant'
 
 export default {
   name: 'ArticleIndex',
-  components: {},
+  components: {
+    FollowUser,
+    CollectArticle
+  },
   props: {
     articleId: {
       type: [Number, String, Object],
@@ -133,7 +159,8 @@ export default {
     return {
       article: {}, // 文章详情
       loading: true, // 加载中的 loading 状态
-      errStatus: 0 // 失败的状态码
+      errStatus: 0, // 失败的状态码
+      followLoading: false // 关注按钮的loading
     }
   },
   computed: {},
