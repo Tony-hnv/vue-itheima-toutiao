@@ -10,7 +10,7 @@
 
     <div class="main-wrap">
       <!-- 加载中 -->
-      <div class="loading-wrap">
+      <div v-if="loading" class="loading-wrap">
         <van-loading
           color="#3296fa"
           vertical
@@ -19,9 +19,9 @@
       <!-- /加载中 -->
 
       <!-- 加载完成-文章详情 -->
-      <div class="article-detail">
+      <div v-else-if="article.title" class="article-detail">
         <!-- 文章标题 -->
-        <h1 class="article-title">这是文章标题</h1>
+        <h1 class="article-title">{{ article.title }}</h1>
         <!-- /文章标题 -->
 
         <!-- 用户信息 -->
@@ -31,10 +31,10 @@
             slot="icon"
             round
             fit="cover"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
+            :src="article.aut_photo"
           />
-          <div slot="title" class="user-name">黑马头条号</div>
-          <div slot="label" class="publish-date">14小时前</div>
+          <div slot="title" class="user-name">{{ article.aut_name}}</div>
+          <div slot="label" class="publish-date">{{ article.pubdate | relativeTime}}</div>
           <van-button
             class="follow-btn"
             type="info"
@@ -52,23 +52,29 @@
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div class="article-content">这是文章内容</div>
+        <div
+          class="article-content markdown-body"
+          v-html="article.content"></div>
         <van-divider>正文结束</van-divider>
       </div>
       <!-- /加载完成-文章详情 -->
 
       <!-- 加载失败：404 -->
-      <div class="error-wrap">
+      <div v-else-if="errStatus === 404" class="error-wrap">
         <van-icon name="failure" />
         <p class="text">该资源不存在或已删除！</p>
       </div>
       <!-- /加载失败：404 -->
 
       <!-- 加载失败：其它未知错误（例如网络原因或服务端异常） -->
-      <div class="error-wrap">
+      <div v-else class="error-wrap">
         <van-icon name="failure" />
         <p class="text">内容加载失败！</p>
-        <van-button class="retry-btn">点击重试</van-button>
+        <van-button
+        class="retry-btn"
+        @click="loadArticle"
+        >点击重试
+        </van-button>
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
@@ -113,7 +119,11 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      article: {}, // 文章详情
+      loading: true, // 加载中的 loading 状态
+      errStatus: 0 // 失败的状态码
+    }
   },
   computed: {},
   watch: {},
@@ -124,18 +134,32 @@ export default {
   methods: {
     async loadArticle () {
       try {
+        this.loading = true
         const { data } = await getArticleById(this.articleId)
-        console.log(data)
+        // 测试报错
+        // if (Math.random() > 0.5) {
+        //   JSON.parse('sfvsdcsdcsdcsdcsdc')
+        // }
+
+        this.article = data.data
+        // console.log(data)
       } catch (err) {
+        if (err.response && err.response.status === 404) {
+          this.errStatus = 404
+        }
+
         this.$toast('获取文章失败，请稍后重试')
       }
+      // 请求成功或者失败，关闭loading
+      this.loading = false
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-.article-container {
+@import "./github-markdown.css";
+  .article-container {
   .main-wrap {
     position: fixed;
     left: 0;
