@@ -5,6 +5,7 @@
       class="page-nav-bar"
       left-arrow
       title="黑马头条"
+      @click-left="$router.back()"
     ></van-nav-bar>
     <!-- /导航栏 -->
 
@@ -53,6 +54,7 @@
 
         <!-- 文章内容 -->
         <div
+          ref="article-content"
           class="article-content markdown-body"
           v-html="article.content"></div>
         <van-divider>正文结束</van-divider>
@@ -108,6 +110,15 @@
 
 <script>
 import { getArticleById } from '@/api/article'
+import { ImagePreview } from 'vant'
+
+// ImagePreview({
+//   images: [
+//     'https://img01.yzcdn.cn/vant/apple-1.jpg',
+//     'https://img01.yzcdn.cn/vant/apple-2.jpg'
+//   ],
+//   startPosition: 1
+// })
 
 export default {
   name: 'ArticleIndex',
@@ -141,7 +152,13 @@ export default {
         //   JSON.parse('sfvsdcsdcsdcsdcsdc')
         // }
 
+        // 数据驱动视图这件事不是立即的
         this.article = data.data
+
+        setTimeout(() => {
+          this.previewImage()
+        }, 0)
+
         // console.log(data)
       } catch (err) {
         if (err.response && err.response.status === 404) {
@@ -152,6 +169,28 @@ export default {
       }
       // 请求成功或者失败，关闭loading
       this.loading = false
+    },
+
+    previewImage () {
+      // 得到所有的 img 节点
+      const articleContent = this.$refs['article-content']
+      const imgs = articleContent.querySelectorAll('img')
+
+      // 获取所有 img 地址
+      const images = []
+      imgs.forEach((img, index) => {
+        images.push(img.src)
+
+        // 给每个 img 注册点击事件，在处理函数中调用预览
+        img.onclick = () => {
+          ImagePreview({
+            // 预览的图片地址数组
+            images,
+            // 起始位置，从 0 开始
+            startPosition: index
+          })
+        }
+      })
     }
   }
 }
