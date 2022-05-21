@@ -33,8 +33,8 @@ export const getUserInfo = () => {
     url: '/v1_0/user'
     // 发送请求头数据
     // headers: {
-    //   // 注意：该接口需要授权才能访问
-    //   // token 的数据格式：Bearer token数据，注意 Bearer 后面有一个空格
+    //   注意：该接口需要授权才能访问
+    //   token 的数据格式：Bearer token数据，注意 Bearer 后面有一个空格
     //   Authorization: `Bearer ${store.state.user.token}`
     // }
   })
@@ -70,5 +70,37 @@ export const deleteFollow = target => {
   return request({
     method: 'DELETE',
     url: `/v1_0/user/followings/${target}`
+  })
+}
+
+/**
+ * 获取当前登录用户资料
+ */
+export const getUserProfile = target => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/user/profile'
+  })
+}
+
+/**
+ * 编辑当前登录用户资料
+ */
+export const updateUserProfile = data => {
+  return request({
+    method: 'PATCH',
+    url: '/v1_0/user/profile',
+    data
+  })
+}
+
+/**
+ * 编辑当前登录用户照片资料
+ */
+export const updateUserPhoto = data => {
+  return request({
+    method: 'PATCH',
+    url: '/v1_0/user/photo',
+    data
   })
 }
