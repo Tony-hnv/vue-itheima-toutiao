@@ -1,5 +1,5 @@
 <template>
-  <div class="video-cntainer">视频</div>
+  <div class="video-container">视频</div>
 </template>
 
 <script>
@@ -8,18 +8,14 @@ export default {
   components: {},
   props: {},
   data () {
-    return {
-    }
+    return {}
   },
   computed: {},
   watch: {},
   created () {},
   mounted () {},
   methods: {}
-
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style scoped lang="less"></style>

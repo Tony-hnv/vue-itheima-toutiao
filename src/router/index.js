@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+// 路由表
 const routes = [
   {
     path: '/login',
@@ -15,7 +16,7 @@ const routes = [
     component: () => import('@/views/layout'),
     children: [
       {
-        path: '', // 空，则默认子路由，只能有一个
+        path: '', // 默认子路由，只能有1个
         name: 'home',
         component: () => import('@/views/home')
       },
@@ -45,7 +46,12 @@ const routes = [
     path: '/article/:articleId',
     name: 'article',
     component: () => import('@/views/article'),
-    props: true // 开启props传参
+    props: true // 开启 Props 传参，说白了就是把路由参数映射到组件的 props 数据中
+  },
+  {
+    path: '/user/profile',
+    name: 'user-profile',
+    component: () => import('@/views/user-profile')
   }
 ]
 

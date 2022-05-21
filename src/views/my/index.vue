@@ -5,15 +5,19 @@
       <div class="base-info">
         <div class="left">
           <van-image
-            round
             class="avatar"
-            fit="cover"
             :src="userInfo.photo"
+            round
+            fit="cover"
           />
           <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
-          <van-button size="mini" round>编辑资料</van-button>
+          <van-button
+            size="mini"
+            round
+            to="/user/profile"
+          >编辑资料</van-button>
         </div>
       </div>
       <div class="data-stats">
@@ -38,16 +42,16 @@
     <!-- /已登录头部 -->
 
     <!-- 未登录头部 -->
-    <div v-else @click="$router.push('/login')" class="header not-login">
-      <div class="login-btn">
-        <img class="mobile-img" src="~@/assets/mobile.png" alt="" />
-        <span class="text">登录/注册</span>
+    <div v-else class="header not-login">
+      <div class="login-btn" @click="$router.push('/login')">
+        <img class="mobile-img" src="~@/assets/mobile.png" alt="">
+        <span class="text">登录 / 注册</span>
       </div>
     </div>
     <!-- /未登录头部 -->
 
     <!-- 宫格导航 -->
-    <van-grid class="grid-nav" :column-num="2" clickable>
+    <van-grid class="grid-nav mb-9" :column-num="2" clickable>
       <van-grid-item class="grid-item">
         <i slot="icon" class="toutiao toutiao-shoucang"></i>
         <span slot="text" class="text">收藏</span>
@@ -60,16 +64,14 @@
     <!-- /宫格导航 -->
 
     <van-cell title="消息通知" is-link />
-    <van-cell class="mb-9" title="小智同学" is-link/>
-
+    <van-cell class="mb-9" title="小智同学" is-link />
     <van-cell
       v-if="user"
       class="logout-cell"
       clickable
       title="退出登录"
       @click="onLogout"
-      />
-
+    />
   </div>
 </template>
 
@@ -83,7 +85,7 @@ export default {
   props: {},
   data () {
     return {
-      userInfo: {}// 用户信息
+      userInfo: {} // 用户信息
     }
   },
   computed: {
@@ -103,39 +105,36 @@ export default {
       // 在组件中需要使用 this.$dialog 来调用弹框组件
       this.$dialog.confirm({
         title: '确认退出吗？'
+      }).then(() => {
+        // on confirm
+        // 确认退出：清除登录状态（容器中的 user + 本地存储中的 user）
+        this.$store.commit('setUser', null)
+      }).catch(() => {
+        // on cancel
+        console.log('取消执行这里')
       })
-        .then(() => {
-          // on confirm
-          this.$store.commit('setUser', null)
-        })
-        .catch(() => {
-          // on cancel
-        })
-      // 确认退出：清除登录状态（容器中的 user + 本地存储中的 user）
     },
 
     async loadUserInfo () {
       try {
         const { data } = await getUserInfo()
         this.userInfo = data.data
-        console.log(data)
       } catch (err) {
         this.$toast('获取数据失败，请稍后重试')
-        console.log('获取用户信息失败', err)
       }
     }
   }
-
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 .my-container {
   .header {
     height: 361px;
-    background: url('~@/assets/banner.png');
+    background: url("~@/assets/banner.png");
     background-size: cover;
-    }
+  }
+
   .not-login {
     display: flex;
     justify-content: center;
@@ -146,13 +145,13 @@ export default {
       justify-content: center;
       align-items: center;
       .mobile-img {
-        height: 132px;
         width: 132px;
+        height: 132px;
         margin-bottom: 15px;
       }
       .text {
         font-size: 28px;
-        color: #fff ;
+        color: #fff;
       }
     }
   }
@@ -161,7 +160,7 @@ export default {
     .base-info {
       height: 231px;
       padding: 76px 32px 23px;
-      box-sizing: border-box; //使用box模型，使padding计算在盒子大小内
+      box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -171,8 +170,8 @@ export default {
         .avatar {
           width: 132px;
           height: 132px;
-          margin-right: 23px;
           border: 4px solid #fff;
+          margin-right: 23px;
         }
         .name {
           font-size: 30px;
@@ -184,14 +183,14 @@ export default {
       display: flex;
       .data-item {
         height: 130px;
-        flex:1;
+        flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         color: #fff;
         .count {
-          font-style: 36px;
+          font-size: 36px;
         }
         .text {
           font-size: 23px;
@@ -201,7 +200,6 @@ export default {
   }
 
   .grid-nav {
-    margin-bottom: 9px;
     .grid-item {
       height: 141px;
       i.toutiao {

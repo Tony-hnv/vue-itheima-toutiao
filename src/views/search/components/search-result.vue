@@ -4,15 +4,16 @@
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
-      @load="onLoad"
       :error.sync="error"
-      error-text="加载失败，请求点击重试"
->
-  <van-cell
-    v-for="(article, index) in list"
-    :key="index"
-    :title="article.title" />
-</van-list>
+      error-text="加载失败，请点击重试"
+      @load="onLoad"
+    >
+      <van-cell
+        v-for="(article, index) in list"
+        :key="index"
+        :title="article.title"
+      />
+    </van-list>
   </div>
 </template>
 
@@ -34,7 +35,8 @@ export default {
       loading: false,
       finished: false,
       page: 1,
-      perPage: 20
+      perPage: 20,
+      error: false
     }
   },
   computed: {},
@@ -78,6 +80,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style scoped lang="less"></style>

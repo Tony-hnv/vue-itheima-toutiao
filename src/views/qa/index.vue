@@ -1,5 +1,5 @@
 <template>
-  <div class="qa-cntainer">问答</div>
+  <div class="qa-container">问答</div>
 </template>
 
 <script>
@@ -8,18 +8,14 @@ export default {
   components: {},
   props: {},
   data () {
-    return {
-    }
+    return {}
   },
   computed: {},
   watch: {},
   created () {},
   mounted () {},
   methods: {}
-
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style scoped lang="less"></style>

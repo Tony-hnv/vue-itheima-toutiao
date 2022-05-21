@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- 路由出口 -->
+    <!-- 路由的出口 -->
     <router-view/>
   </div>
 </template>
@@ -11,6 +11,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less"></style>
